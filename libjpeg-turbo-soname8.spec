@@ -6,7 +6,7 @@
 #
 Name     : libjpeg-turbo-soname8
 Version  : 1.5.2
-Release  : 36
+Release  : 37
 URL      : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz
 Source0  : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz
 Source99 : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz.sig
@@ -121,7 +121,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513089361
+export SOURCE_DATE_EPOCH=1513089551
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -168,7 +168,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1513089361
+export SOURCE_DATE_EPOCH=1513089551
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -248,18 +248,18 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+%exclude /usr/lib64/haswell/libturbojpeg.so.0
+%exclude /usr/lib64/haswell/libturbojpeg.so.0.1.0
+%exclude /usr/lib64/libturbojpeg.so.0
+%exclude /usr/lib64/libturbojpeg.so.0.1.0
 /usr/lib64/haswell/libjpeg.so.8
 /usr/lib64/haswell/libjpeg.so.8.1.2
-/usr/lib64/haswell/libturbojpeg.so.0
-/usr/lib64/haswell/libturbojpeg.so.0.1.0
 /usr/lib64/libjpeg.so.8
 /usr/lib64/libjpeg.so.8.1.2
-/usr/lib64/libturbojpeg.so.0
-/usr/lib64/libturbojpeg.so.0.1.0
 
 %files lib32
 %defattr(-,root,root,-)
+%exclude /usr/lib32/libturbojpeg.so.0
+%exclude /usr/lib32/libturbojpeg.so.0.1.0
 /usr/lib32/libjpeg.so.8
 /usr/lib32/libjpeg.so.8.1.2
-/usr/lib32/libturbojpeg.so.0
-/usr/lib32/libturbojpeg.so.0.1.0
