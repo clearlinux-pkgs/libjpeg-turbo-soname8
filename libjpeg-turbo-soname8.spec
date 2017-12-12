@@ -6,7 +6,7 @@
 #
 Name     : libjpeg-turbo-soname8
 Version  : 1.5.2
-Release  : 35
+Release  : 36
 URL      : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz
 Source0  : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz
 Source99 : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz.sig
@@ -121,7 +121,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513089209
+export SOURCE_DATE_EPOCH=1513089361
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -168,7 +168,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1513089209
+export SOURCE_DATE_EPOCH=1513089361
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -186,72 +186,80 @@ popd
 
 %files
 %defattr(-,root,root,-)
-/usr/lib64/haswell/pkgconfig/libjpeg.pc
-/usr/lib64/haswell/pkgconfig/libturbojpeg.pc
+%exclude /usr/lib64/haswell/pkgconfig/libjpeg.pc
+%exclude /usr/lib64/haswell/pkgconfig/libturbojpeg.pc
 
 %files bin
 %defattr(-,root,root,-)
-/usr/bin/cjpeg
-/usr/bin/djpeg
-/usr/bin/haswell/cjpeg
-/usr/bin/haswell/djpeg
-/usr/bin/haswell/jpegtran
-/usr/bin/haswell/rdjpgcom
-/usr/bin/haswell/tjbench
-/usr/bin/haswell/wrjpgcom
-/usr/bin/jpegtran
-/usr/bin/rdjpgcom
-/usr/bin/tjbench
-/usr/bin/wrjpgcom
+%exclude /usr/bin/cjpeg
+%exclude /usr/bin/djpeg
+%exclude /usr/bin/haswell/cjpeg
+%exclude /usr/bin/haswell/djpeg
+%exclude /usr/bin/haswell/jpegtran
+%exclude /usr/bin/haswell/rdjpgcom
+%exclude /usr/bin/haswell/tjbench
+%exclude /usr/bin/haswell/wrjpgcom
+%exclude /usr/bin/jpegtran
+%exclude /usr/bin/rdjpgcom
+%exclude /usr/bin/tjbench
+%exclude /usr/bin/wrjpgcom
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/doc/libjpeg-turbo/LICENSE.md
-/usr/share/doc/libjpeg-turbo/README.ijg
-/usr/share/doc/libjpeg-turbo/README.md
-/usr/share/doc/libjpeg-turbo/example.c
-/usr/share/doc/libjpeg-turbo/libjpeg.txt
-/usr/share/doc/libjpeg-turbo/structure.txt
-/usr/share/doc/libjpeg-turbo/usage.txt
-/usr/share/doc/libjpeg-turbo/wizard.txt
+%exclude /usr/share/doc/libjpeg-turbo/LICENSE.md
+%exclude /usr/share/doc/libjpeg-turbo/README.ijg
+%exclude /usr/share/doc/libjpeg-turbo/README.md
+%exclude /usr/share/doc/libjpeg-turbo/example.c
+%exclude /usr/share/doc/libjpeg-turbo/libjpeg.txt
+%exclude /usr/share/doc/libjpeg-turbo/structure.txt
+%exclude /usr/share/doc/libjpeg-turbo/usage.txt
+%exclude /usr/share/doc/libjpeg-turbo/wizard.txt
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
-/usr/lib64/haswell/libjpeg.so
-/usr/lib64/haswell/libturbojpeg.so
-/usr/lib64/libjpeg.so
-/usr/lib64/libturbojpeg.so
-/usr/lib64/pkgconfig/libjpeg.pc
-/usr/lib64/pkgconfig/libturbojpeg.pc
+%exclude /usr/include/jconfig.h
+%exclude /usr/include/jerror.h
+%exclude /usr/include/jmorecfg.h
+%exclude /usr/include/jpeglib.h
+%exclude /usr/include/turbojpeg.h
+%exclude /usr/lib64/haswell/libjpeg.so
+%exclude /usr/lib64/haswell/libturbojpeg.so
+%exclude /usr/lib64/libjpeg.so
+%exclude /usr/lib64/libturbojpeg.so
+%exclude /usr/lib64/pkgconfig/libjpeg.pc
+%exclude /usr/lib64/pkgconfig/libturbojpeg.pc
 
 %files dev32
 %defattr(-,root,root,-)
-/usr/lib32/libjpeg.so
-/usr/lib32/libturbojpeg.so
-/usr/lib32/pkgconfig/32libjpeg.pc
-/usr/lib32/pkgconfig/32libturbojpeg.pc
-/usr/lib32/pkgconfig/libjpeg.pc
-/usr/lib32/pkgconfig/libturbojpeg.pc
+%exclude /usr/lib32/libjpeg.so
+%exclude /usr/lib32/libturbojpeg.so
+%exclude /usr/lib32/pkgconfig/32libjpeg.pc
+%exclude /usr/lib32/pkgconfig/32libturbojpeg.pc
+%exclude /usr/lib32/pkgconfig/libjpeg.pc
+%exclude /usr/lib32/pkgconfig/libturbojpeg.pc
 
 %files doc
 %defattr(-,root,root,-)
-%doc /usr/share/man/man1/*
+%exclude /usr/share/man/man1/cjpeg.1
+%exclude /usr/share/man/man1/djpeg.1
+%exclude /usr/share/man/man1/jpegtran.1
+%exclude /usr/share/man/man1/rdjpgcom.1
+%exclude /usr/share/man/man1/wrjpgcom.1
 
 %files lib
 %defattr(-,root,root,-)
-%exclude /usr/lib64/haswell/libturbojpeg.so.0
-%exclude /usr/lib64/haswell/libturbojpeg.so.0.1.0
-%exclude /usr/lib64/libturbojpeg.so.0
-%exclude /usr/lib64/libturbojpeg.so.0.1.0
 /usr/lib64/haswell/libjpeg.so.8
 /usr/lib64/haswell/libjpeg.so.8.1.2
+/usr/lib64/haswell/libturbojpeg.so.0
+/usr/lib64/haswell/libturbojpeg.so.0.1.0
 /usr/lib64/libjpeg.so.8
 /usr/lib64/libjpeg.so.8.1.2
+/usr/lib64/libturbojpeg.so.0
+/usr/lib64/libturbojpeg.so.0.1.0
 
 %files lib32
 %defattr(-,root,root,-)
-%exclude /usr/lib32/libturbojpeg.so.0
-%exclude /usr/lib32/libturbojpeg.so.0.1.0
 /usr/lib32/libjpeg.so.8
 /usr/lib32/libjpeg.so.8.1.2
+/usr/lib32/libturbojpeg.so.0
+/usr/lib32/libturbojpeg.so.0.1.0
