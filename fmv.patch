@@ -1,0 +1,11 @@
+--- libjpeg-turbo-1.5.1/jdhuff.c~	2016-09-20 23:36:59.000000000 +0000
++++ libjpeg-turbo-1.5.1/jdhuff.c	2017-01-13 20:05:13.099075953 +0000
+@@ -752,7 +752,7 @@
+ 
+ #define BUFSIZE (DCTSIZE2 * 8)
+ 
+-METHODDEF(boolean)
++__attribute__((target_clones("arch=haswell","default"))) METHODDEF(boolean)
+ decode_mcu (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+ {
+   huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
