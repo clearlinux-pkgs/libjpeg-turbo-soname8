@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x85C7044E033FDE16 (information@libjpeg-turbo.org)
 #
 Name     : libjpeg-turbo-soname8
-Version  : 1.5.2
-Release  : 37
-URL      : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz
-Source0  : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz
-Source99 : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz.sig
+Version  : 1.5.3
+Release  : 38
+URL      : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
+Source0  : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
+Source99 : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz.sig
 Summary  : A SIMD-accelerated JPEG codec that provides the TurboJPEG API
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -107,13 +107,13 @@ lib32 components for the libjpeg-turbo-soname8 package.
 
 
 %prep
-%setup -q -n libjpeg-turbo-1.5.2
+%setup -q -n libjpeg-turbo-1.5.3
 %patch1 -p1
 pushd ..
-cp -a libjpeg-turbo-1.5.2 build32
+cp -a libjpeg-turbo-1.5.3 build32
 popd
 pushd ..
-cp -a libjpeg-turbo-1.5.2 buildavx2
+cp -a libjpeg-turbo-1.5.3 buildavx2
 popd
 
 %build
@@ -121,7 +121,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513089551
+export SOURCE_DATE_EPOCH=1513308572
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -168,7 +168,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1513089551
+export SOURCE_DATE_EPOCH=1513308572
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
