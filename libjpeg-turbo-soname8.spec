@@ -6,18 +6,18 @@
 #
 Name     : libjpeg-turbo-soname8
 Version  : 1.5.3
-Release  : 40
+Release  : 41
 URL      : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
 Source0  : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
 Source99 : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz.sig
 Summary  : A SIMD-accelerated JPEG codec that provides the TurboJPEG API
 Group    : Development/Tools
-License  : BSD-3-Clause
-Requires: libjpeg-turbo-soname8-bin
-Requires: libjpeg-turbo-soname8-lib
-Requires: libjpeg-turbo-soname8-data
-Requires: libjpeg-turbo-soname8-doc
-BuildRequires : cmake
+License  : BSD-3-Clause IJG
+Requires: libjpeg-turbo-soname8-bin = %{version}-%{release}
+Requires: libjpeg-turbo-soname8-lib = %{version}-%{release}
+Requires: libjpeg-turbo-soname8-license = %{version}-%{release}
+Requires: libjpeg-turbo-soname8-man = %{version}-%{release}
+BuildRequires : buildreq-cmake
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
@@ -26,6 +26,7 @@ BuildRequires : glibc-libc32
 BuildRequires : nasm
 BuildRequires : yasm
 Patch1: cve-2017-15232.patch
+Patch2: CVE-2018-14498.patch
 
 %description
 TurboJPEG Java Wrapper
@@ -42,27 +43,18 @@ Java archive (JAR) file containing these classes is also shipped with the
 %package bin
 Summary: bin components for the libjpeg-turbo-soname8 package.
 Group: Binaries
-Requires: libjpeg-turbo-soname8-data
+Requires: libjpeg-turbo-soname8-license = %{version}-%{release}
 
 %description bin
 bin components for the libjpeg-turbo-soname8 package.
 
 
-%package data
-Summary: data components for the libjpeg-turbo-soname8 package.
-Group: Data
-
-%description data
-data components for the libjpeg-turbo-soname8 package.
-
-
 %package dev
 Summary: dev components for the libjpeg-turbo-soname8 package.
 Group: Development
-Requires: libjpeg-turbo-soname8-lib
-Requires: libjpeg-turbo-soname8-bin
-Requires: libjpeg-turbo-soname8-data
-Provides: libjpeg-turbo-soname8-devel
+Requires: libjpeg-turbo-soname8-lib = %{version}-%{release}
+Requires: libjpeg-turbo-soname8-bin = %{version}-%{release}
+Provides: libjpeg-turbo-soname8-devel = %{version}-%{release}
 
 %description dev
 dev components for the libjpeg-turbo-soname8 package.
@@ -71,10 +63,9 @@ dev components for the libjpeg-turbo-soname8 package.
 %package dev32
 Summary: dev32 components for the libjpeg-turbo-soname8 package.
 Group: Default
-Requires: libjpeg-turbo-soname8-lib32
-Requires: libjpeg-turbo-soname8-bin
-Requires: libjpeg-turbo-soname8-data
-Requires: libjpeg-turbo-soname8-dev
+Requires: libjpeg-turbo-soname8-lib32 = %{version}-%{release}
+Requires: libjpeg-turbo-soname8-bin = %{version}-%{release}
+Requires: libjpeg-turbo-soname8-dev = %{version}-%{release}
 
 %description dev32
 dev32 components for the libjpeg-turbo-soname8 package.
@@ -83,6 +74,7 @@ dev32 components for the libjpeg-turbo-soname8 package.
 %package doc
 Summary: doc components for the libjpeg-turbo-soname8 package.
 Group: Documentation
+Requires: libjpeg-turbo-soname8-man = %{version}-%{release}
 
 %description doc
 doc components for the libjpeg-turbo-soname8 package.
@@ -91,7 +83,7 @@ doc components for the libjpeg-turbo-soname8 package.
 %package lib
 Summary: lib components for the libjpeg-turbo-soname8 package.
 Group: Libraries
-Requires: libjpeg-turbo-soname8-data
+Requires: libjpeg-turbo-soname8-license = %{version}-%{release}
 
 %description lib
 lib components for the libjpeg-turbo-soname8 package.
@@ -100,15 +92,32 @@ lib components for the libjpeg-turbo-soname8 package.
 %package lib32
 Summary: lib32 components for the libjpeg-turbo-soname8 package.
 Group: Default
-Requires: libjpeg-turbo-soname8-data
+Requires: libjpeg-turbo-soname8-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the libjpeg-turbo-soname8 package.
 
 
+%package license
+Summary: license components for the libjpeg-turbo-soname8 package.
+Group: Default
+
+%description license
+license components for the libjpeg-turbo-soname8 package.
+
+
+%package man
+Summary: man components for the libjpeg-turbo-soname8 package.
+Group: Default
+
+%description man
+man components for the libjpeg-turbo-soname8 package.
+
+
 %prep
 %setup -q -n libjpeg-turbo-1.5.3
 %patch1 -p1
+%patch2 -p1
 pushd ..
 cp -a libjpeg-turbo-1.5.3 build32
 popd
@@ -121,14 +130,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513308572
+export SOURCE_DATE_EPOCH=1554761965
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
@@ -147,17 +156,19 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 %configure --disable-static --with-jpeg8   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
+unset PKG_CONFIG_PATH
 pushd ../buildavx2/
 export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
-%configure --disable-static --with-jpeg8   --libdir=/usr/lib64/haswell --bindir=/usr/bin/haswell
+%configure --disable-static --with-jpeg8
 make  %{?_smp_mflags}
 popd
 %check
@@ -166,10 +177,17 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
+cd ../build32;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+cd ../buildavx2;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1513308572
+export SOURCE_DATE_EPOCH=1554761965
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8
+cp LICENSE.md %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8/LICENSE.md
+cp release/License.rtf %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8/release_License.rtf
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -180,14 +198,12 @@ popd
 fi
 popd
 pushd ../buildavx2/
-%make_install
+%make_install_avx2
 popd
 %make_install
 
 %files
 %defattr(-,root,root,-)
-%exclude /usr/lib64/haswell/pkgconfig/libjpeg.pc
-%exclude /usr/lib64/haswell/pkgconfig/libturbojpeg.pc
 
 %files bin
 %defattr(-,root,root,-)
@@ -203,17 +219,6 @@ popd
 %exclude /usr/bin/rdjpgcom
 %exclude /usr/bin/tjbench
 %exclude /usr/bin/wrjpgcom
-
-%files data
-%defattr(-,root,root,-)
-%exclude /usr/share/doc/libjpeg-turbo/LICENSE.md
-%exclude /usr/share/doc/libjpeg-turbo/README.ijg
-%exclude /usr/share/doc/libjpeg-turbo/README.md
-%exclude /usr/share/doc/libjpeg-turbo/example.c
-%exclude /usr/share/doc/libjpeg-turbo/libjpeg.txt
-%exclude /usr/share/doc/libjpeg-turbo/structure.txt
-%exclude /usr/share/doc/libjpeg-turbo/usage.txt
-%exclude /usr/share/doc/libjpeg-turbo/wizard.txt
 
 %files dev
 %defattr(-,root,root,-)
@@ -239,12 +244,15 @@ popd
 %exclude /usr/lib32/pkgconfig/libturbojpeg.pc
 
 %files doc
-%defattr(-,root,root,-)
-%exclude /usr/share/man/man1/cjpeg.1
-%exclude /usr/share/man/man1/djpeg.1
-%exclude /usr/share/man/man1/jpegtran.1
-%exclude /usr/share/man/man1/rdjpgcom.1
-%exclude /usr/share/man/man1/wrjpgcom.1
+%defattr(0644,root,root,0755)
+%exclude /usr/share/doc/libjpeg-turbo/LICENSE.md
+%exclude /usr/share/doc/libjpeg-turbo/README.ijg
+%exclude /usr/share/doc/libjpeg-turbo/README.md
+%exclude /usr/share/doc/libjpeg-turbo/example.c
+%exclude /usr/share/doc/libjpeg-turbo/libjpeg.txt
+%exclude /usr/share/doc/libjpeg-turbo/structure.txt
+%exclude /usr/share/doc/libjpeg-turbo/usage.txt
+%exclude /usr/share/doc/libjpeg-turbo/wizard.txt
 
 %files lib
 %defattr(-,root,root,-)
@@ -263,3 +271,16 @@ popd
 %exclude /usr/lib32/libturbojpeg.so.0.1.0
 /usr/lib32/libjpeg.so.8
 /usr/lib32/libjpeg.so.8.1.2
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libjpeg-turbo-soname8/LICENSE.md
+/usr/share/package-licenses/libjpeg-turbo-soname8/release_License.rtf
+
+%files man
+%defattr(0644,root,root,0755)
+%exclude /usr/share/man/man1/cjpeg.1
+%exclude /usr/share/man/man1/djpeg.1
+%exclude /usr/share/man/man1/jpegtran.1
+%exclude /usr/share/man/man1/rdjpgcom.1
+%exclude /usr/share/man/man1/wrjpgcom.1
