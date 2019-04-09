@@ -1,0 +1,2 @@
+rm -rf %{buildroot}/usr/lib32/libturbojpeg.so.0*
+rm -rf %{buildroot}/usr/lib64/libturbojpeg.so.0*

@@ -6,7 +6,7 @@
 #
 Name     : libjpeg-turbo-soname8
 Version  : 1.5.3
-Release  : 41
+Release  : 42
 URL      : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
 Source0  : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
 Source99 : http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz.sig
@@ -55,6 +55,7 @@ Group: Development
 Requires: libjpeg-turbo-soname8-lib = %{version}-%{release}
 Requires: libjpeg-turbo-soname8-bin = %{version}-%{release}
 Provides: libjpeg-turbo-soname8-devel = %{version}-%{release}
+Requires: libjpeg-turbo-soname8 = %{version}-%{release}
 
 %description dev
 dev components for the libjpeg-turbo-soname8 package.
@@ -130,7 +131,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1554761965
+export SOURCE_DATE_EPOCH=1554770741
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -183,7 +184,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1554761965
+export SOURCE_DATE_EPOCH=1554770741
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8
 cp LICENSE.md %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8/LICENSE.md
@@ -201,6 +202,10 @@ pushd ../buildavx2/
 %make_install_avx2
 popd
 %make_install
+## install_append content
+rm -rf %{buildroot}/usr/lib32/libturbojpeg.so.0*
+rm -rf %{buildroot}/usr/lib64/libturbojpeg.so.0*
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -258,8 +263,6 @@ popd
 %defattr(-,root,root,-)
 %exclude /usr/lib64/haswell/libturbojpeg.so.0
 %exclude /usr/lib64/haswell/libturbojpeg.so.0.1.0
-%exclude /usr/lib64/libturbojpeg.so.0
-%exclude /usr/lib64/libturbojpeg.so.0.1.0
 /usr/lib64/haswell/libjpeg.so.8
 /usr/lib64/haswell/libjpeg.so.8.1.2
 /usr/lib64/libjpeg.so.8
@@ -267,8 +270,6 @@ popd
 
 %files lib32
 %defattr(-,root,root,-)
-%exclude /usr/lib32/libturbojpeg.so.0
-%exclude /usr/lib32/libturbojpeg.so.0.1.0
 /usr/lib32/libjpeg.so.8
 /usr/lib32/libjpeg.so.8.1.2
 
