@@ -6,7 +6,7 @@
 #
 Name     : libjpeg-turbo-soname8
 Version  : 1.5.3
-Release  : 45
+Release  : 46
 URL      : https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
 Source0  : https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
 Source1 : https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz.sig
