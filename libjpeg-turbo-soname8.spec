@@ -6,7 +6,7 @@
 #
 Name     : libjpeg-turbo-soname8
 Version  : 1.5.3
-Release  : 46
+Release  : 47
 URL      : https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
 Source0  : https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz
 Source1 : https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.3.tar.gz.sig
@@ -25,6 +25,7 @@ BuildRequires : nasm
 BuildRequires : yasm
 Patch1: cve-2017-15232.patch
 Patch2: CVE-2018-14498.patch
+Patch3: CVE-2019-2201.patch
 
 %description
 TurboJPEG Java Wrapper
@@ -66,8 +67,10 @@ license components for the libjpeg-turbo-soname8 package.
 
 %prep
 %setup -q -n libjpeg-turbo-1.5.3
+cd %{_builddir}/libjpeg-turbo-1.5.3
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 pushd ..
 cp -a libjpeg-turbo-1.5.3 build32
 popd
@@ -80,7 +83,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1567802846
+export SOURCE_DATE_EPOCH=1573589789
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -93,16 +96,18 @@ export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -f
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export CXXFLAGS_GENERATE="$CXXFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export LDFLAGS_GENERATE="$LDFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
-CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}" %configure --disable-static --with-jpeg8
+export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}" LDFLAGS="${LDFLAGS_GENERATE}" %configure --disable-static --with-jpeg8
 make  %{?_smp_mflags}
 
 ./tjbench testimages/testimgint.jpg
 make clean
-CFLAGS="${CFLAGS_USE}" CXXFLAGS="${CXXFLAGS_USE}" FFLAGS="${FFLAGS_USE}" FCFLAGS="${FCFLAGS_USE}" %configure --disable-static --with-jpeg8
+CFLAGS="${CFLAGS_USE}" CXXFLAGS="${CXXFLAGS_USE}" FFLAGS="${FFLAGS_USE}" FCFLAGS="${FCFLAGS_USE}" LDFLAGS="${LDFLAGS_USE}" %configure --disable-static --with-jpeg8
 make  %{?_smp_mflags}
 
 pushd ../build32/
@@ -134,11 +139,11 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1567802846
+export SOURCE_DATE_EPOCH=1573589789
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8
-cp LICENSE.md %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8/LICENSE.md
-cp release/License.rtf %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8/release_License.rtf
+cp %{_builddir}/libjpeg-turbo-1.5.3/LICENSE.md %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8/7b111516fb0f6aa2063908e9098aa5727200abf3
+cp %{_builddir}/libjpeg-turbo-1.5.3/release/License.rtf %{buildroot}/usr/share/package-licenses/libjpeg-turbo-soname8/f0b17b88210d4efef996d99421683315b8ded689
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -225,5 +230,5 @@ rm -rf %{buildroot}/usr/lib64/libturbojpeg.so.0*
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libjpeg-turbo-soname8/LICENSE.md
-/usr/share/package-licenses/libjpeg-turbo-soname8/release_License.rtf
+/usr/share/package-licenses/libjpeg-turbo-soname8/7b111516fb0f6aa2063908e9098aa5727200abf3
+/usr/share/package-licenses/libjpeg-turbo-soname8/f0b17b88210d4efef996d99421683315b8ded689
